@@ -1,0 +1,10 @@
+{
+  "name": "VÉRTICE SPORT",
+  "short_name": "VÉRTICE",
+  "description": "Datos. Contexto. Probabilidad.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "lang": "es"
+}

@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VÉRTICE SPORT</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b0d10">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b0d10;color:#f3f5f7;font-family:Arial,Helvetica,sans-serif}
+.top{height:72px;border-bottom:1px solid #242930;display:flex;align-items:center;justify-content:space-between;padding:0 6vw}
+.brand{font-size:20px;font-weight:800;letter-spacing:.08em}.brand small{font-size:11px;color:#8993a1;font-weight:500;letter-spacing:.2em}
+.status{font-size:12px;color:#aab2bd}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#61d18a;margin-right:7px}
+main{max-width:1100px;margin:auto;padding:36px 24px 80px}
+.eyebrow{font-size:11px;letter-spacing:.18em;color:#8993a1;font-weight:700;margin:0 0 12px}
+h1{font-size:44px;line-height:1.03;letter-spacing:-.04em;margin:0 0 10px}h1 span{color:#9aa5b3}
+.tag{color:#9da6b2;margin:0 0 18px;font-size:15px}
+.intro{max-width:680px;color:#9da6b2;line-height:1.6;font-size:16px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0}
+.nav button,.scan{border:1px solid #252b33;background:#11151a;color:#dfe4e9;border-radius:11px;padding:12px 10px;font-size:12px;cursor:pointer}
+.nav button.active{border-color:#4d5a68;background:#171d24}
+.scan{width:100%;margin-top:8px;border:0;border-radius:13px;padding:18px;background:#f2f4f6;color:#0a0c0f;font-size:16px;font-weight:800}
+.scan:disabled{opacity:.75}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}
+.filter{border:1px solid #252b33;background:#11151a;border-radius:11px;padding:14px;font-size:12px;color:#cbd1d8}
+.panel{border:1px solid #2b333d;background:#101419;border-radius:15px;padding:18px;margin-top:16px}
+.head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:11px}
+.progress{height:6px;background:#252b33;border-radius:6px;overflow:hidden}.bar{height:100%;width:0;background:#dfe4e9;transition:width .35s}
+.log{margin-top:13px;color:#9da6b2;font-size:12px;line-height:1.85}.done{color:#dfe4e9;font-weight:700}
+.nobet{margin-top:18px;border:1px solid #5a3a3a;background:#160f0f;border-radius:14px;padding:16px}
+.nobet b{color:#f0c9c9}
+.list{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.card{border:1px solid #2b333d;background:#101419;border-radius:14px;padding:14px 16px;cursor:pointer}
+.card:hover{border-color:#3c4652}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.comp{font-size:11px;letter-spacing:.12em;color:#8e98a5}
+.matchn{font-size:17px;font-weight:750;margin:6px 0 4px}
+.meta{font-size:12px;color:#9da6b2}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:10px;letter-spacing:.06em;border:1px solid #2f3842;border-radius:20px;padding:4px 8px;color:#c5ccd4}
+.pill.real{border-color:#34563f;color:#8fe0a7}
+.pill.miss{border-color:#4a3a2a;color:#d6b48a}
+.pill.live{border-color:#6a3a3a;color:#f0b4b4}
+.pill.high{border-color:#34563f;color:#8fe0a7}
+.pill.med{border-color:#4a4a2a;color:#e0d48a}
+.pill.low{border-color:#4a3a2a;color:#d6b48a}
+.detail{display:none;margin-top:16px;border:1px solid #343d47;background:#0e1216;border-radius:15px;padding:20px}
+.detail.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.metric{border:1px solid #252c34;border-radius:10px;padding:12px}
+.metric small{display:block;color:#788390;font-size:10px;margin-bottom:6px}
+.metric strong{font-size:16px}
+.block{border:1px solid #252c34;border-radius:10px;padding:12px;margin-top:10px;font-size:13px;color:#cdd4db;line-height:1.55}
+.disclaimer{color:#69737f;font-size:11px;line-height:1.5;margin-top:22px}
+.view{display:none}.view.show{display:block}
+@media(max-width:700px){main{padding:28px 18px}h1{font-size:34px}.filters,.nav,.grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">VÉRTICE <small>SPORT</small></div>
+  <div class="status"><span class="dot"></span><span id="status">Motor listo · modelo NOT_READY</span></div>
+</header>
+<main>
+  <p class="eyebrow">FOOTBALL INTELLIGENCE · REAL SCANNER · MARKET MODE + MODEL READY</p>
+  <h1>Encuentra la señal,<br><span>no la apuesta.</span></h1>
+  <p class="tag">Data. Context. Probability.</p>
+  <p class="intro">Escanea partidos de fútbol de hoy y usa cuotas reales persistidas de OddsPapi/Betano cuando están disponibles. La probabilidad de mercado no se presenta como predicción propia.</p>
+
+  <nav class="nav">
+    <button class="active" data-view="scanView">HOY</button>
+    <button data-view="bestView">CUOTA DEL DÍA</button>
+    <button data-view="buildView">CONSTRUIR CUOTA</button>
+    <button data-view="metaView">META DE CAPITAL</button>
+    <button data-view="rutaView">RUTA</button>
+    <button data-view="histView">HISTORIAL</button>
+    <button data-view="intView">INTEGRIDAD</button>
+    <button data-view="setView">READINESS</button>
+  </nav>
+
+  <section id="scanView" class="view show">
+    <button class="scan" id="scan">🔎 BUSCAR AHORA</button>
+    <section class="filters">
+      <div class="filter">📅 <b>Solo hoy</b></div>
+      <div class="filter">⚽ <b>Fútbol</b></div>
+      <div class="filter">🎯 <b>Cuota ≥ 1.50 · probabilidad de mercado</b></div>
+      <div class="filter">🛡️ <b>Integridad: evidencia pública</b></div>
+    </section>
+    <section class="panel">
+      <div class="head"><strong id="scanTitle">Listo para analizar</strong><span id="pct">0%</span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="log" id="log">Pulsa “Buscar ahora”. El backend consulta BBC Sport y puede mostrar cuotas reales persistidas de OddsPapi/Betano cuando están disponibles.</div>
+    </section>
+    <div id="nobet" class="nobet" hidden></div>
+    <div class="list" id="list"></div>
+    <div class="detail" id="detail"></div>
+  </section>
+
+  <section id="bestView" class="view">
+    <div class="panel"><div class="head"><strong>CUOTA DEL DÍA</strong></div>
+    <p class="intro" id="dailyIntro">Cargando oportunidad de mercado…</p>
+    <p class="meta" id="dailyMeta">MODO MERCADO: la probabilidad mostrada será la implícita 1/cuota. Cuando el modelo VÉRTICE esté validado aparecerá su probabilidad propia.</p></div>
+  </section>
+  <section id="buildView" class="view">
+    <div class="panel"><div class="head"><strong>CONSTRUIR CUOTA</strong></div>
+    <label class="meta">Cuota objetivo</label>
+    <input id="tgtOdds" value="5.00" style="width:100%;padding:10px;margin:8px 0;background:#0e1216;color:#fff;border:1px solid #2b333d;border-radius:8px">
+    <button class="scan" id="tgtBtn" type="button">Buscar combinación</button>
+    <div class="block" id="tgtOut">MODEL NOT READY — no se fuerza una combinada.</div></div>
+  </section>
+  <section id="metaView" class="view">
+    <div class="panel"><div class="head"><strong>META DE CAPITAL</strong></div>
+    <p class="meta">SIMULACIÓN MATEMÁTICA. No es garantía ni recomendación.</p>
+    <div class="grid">
+      <div class="metric"><small>CAPITAL</small><input id="cap0" value="1" style="width:100%;background:#0e1216;color:#fff;border:0"></div>
+      <div class="metric"><small>META</small><input id="capM" value="100" style="width:100%;background:#0e1216;color:#fff;border:0"></div>
+      <div class="metric"><small>CUOTA</small><input id="capQ" value="1.50" style="width:100%;background:#0e1216;color:#fff;border:0"></div>
+    </div>
+    <select id="capN" style="margin:8px 0;padding:8px;background:#11151a;color:#fff;border:1px solid #2b333d">
+      <option>CONSERVADOR</option><option selected>MODERADO</option><option>AGRESIVO</option>
+    </select>
+    <button class="scan" id="capBtn" type="button">Calcular</button>
+    <div class="block" id="capOut"></div></div>
+  </section>
+  <section id="rutaView" class="view">
+    <div class="panel"><div class="head"><strong>RUTA HACIA LA META</strong></div>
+    <p class="meta">Escenarios CONSERVADOR / MODERADO / AGRESIVO. Simulación, no martingala.</p>
+    <button class="scan" id="rutaBtn" type="button">Simular ruta $1 → $100 @ 5.00</button>
+    <div class="block" id="rutaOut"></div></div>
+  </section>
+  <section id="histView" class="view">
+    <div class="panel"><div class="head"><strong>📊 HISTORY</strong></div>
+    <p class="intro" id="histIntro">Historial de snapshots y settlement en lectura. WON/LOST solo cuando hay marcador BBC FINISHED enlazado.</p>
+    <div class="meta" id="histMeta">Cargando /api/history/evaluation…</div></div>
+  </section>
+  <section id="newsView" class="view">
+    <div class="panel"><div class="head"><strong>📰 NEWS & CONTEXT</strong></div>
+    <p class="intro">V0.3.1 no adjunta titulares inventados a cada partido. Si una noticia no tiene fuente y fecha, no se muestra.</p></div>
+  </section>
+  <section id="intView" class="view">
+    <div class="panel"><div class="head"><strong>🛡️ INTEGRITY</strong></div>
+    <p class="intro">Este módulo no afirma que un partido esté amañado. Clasifica solo con evidencia pública verificable. Por defecto: INSUFFICIENT DATA.</p></div>
+  </section>
+  <section id="setView" class="view">
+    <div class="panel"><div class="head"><strong>⚙️ SETTINGS</strong></div>
+    <p class="meta">Fuente partidos: BBC Sport.<br>Cuotas: OddsPapi / Betano (pre-match desde datos reales persistidos; live depende del acceso del plan).<br>Modelo: NOT_READY hasta settlement histórico suficiente.<br>Secretos solo en variables de entorno.</p>
+    <div class="block" id="readyBox">Readiness: cargando…</div></div>
+  </section>
+
+  <p class="disclaimer">VÉRTICE SPORT · No es consejo de apuesta. model_probability y EV permanecen nulos mientras DATA NOT READY.</p>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const scanBtn=$('scan'), bar=$('bar'), pct=$('pct'), log=$('log'), title=$('scanTitle'), status=$('status');
+const API = location.port === '8000' || location.pathname.includes('vertice') ? '' : '';
+
+document.querySelectorAll('.nav button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('show'));
+    $(b.dataset.view).classList.add('show');
+  };
+});
+
+function pill(text, cls){ return `<span class="pill ${cls||''}">${text}</span>`; }
+
+function renderMatches(payload){
+  const list=$('list'); list.innerHTML='';
+  $('detail').classList.remove('show');
+  const matches=payload.matches||[];
+  const live=matches.filter(m=>m.status==='LIVE').length;
+  const up=matches.filter(m=>m.status==='UPCOMING').length;
+  const fin=matches.filter(m=>m.status==='FINISHED').length;
+  $('nobet').hidden=false;
+  $('nobet').innerHTML=`<b>❌ NO BET TODAY</b><div style="margin-top:8px">${payload.recommendation_detail||'Insufficient odds and statistical data.'}</div>
+    <div class="pills" style="margin-top:10px">${pill(matches.length+' partidos REAL','real')}${pill(live+' LIVE')}${pill(up+' UPCOMING')}${pill(fin+' FINISHED')}${pill('Betano MISSING','miss')}</div>
+    <div class="meta" style="margin-top:8px">Scan: ${payload.fetched_at||'—'} · Fecha: ${payload.date||'—'}</div>`;
+  matches.forEach(m=>{
+    const el=document.createElement('div');
+    el.className='card';
+    const score=(m.home_score!=null && m.away_score!=null) ? `${m.home_score}–${m.away_score}` : '—';
+    const liveBit = m.status==='LIVE' ? (m.minute||'LIVE') : m.status;
+    el.innerHTML=`<div class="row"><div>
+      <div class="comp">${m.competition||'—'} · ${pill('REAL','real')}</div>
+      <div class="matchn">${m.home_team||'?'} vs ${m.away_team||'?'}</div>
+      <div class="meta">${m.display_time_uk||m.kickoff_utc||''} · ${liveBit} · marcador ${score}</div>
+      <div class="pills">${pill('Quality '+m.data_quality, m.data_quality==='HIGH'?'high':m.data_quality==='MEDIUM'?'med':'low')}
+      ${pill('Integrity '+m.integrity_level)}
+      ${pill('Odds MISSING','miss')}
+      ${m.status==='LIVE'?pill('LIVE','live'):''}</div>
+    </div></div>`;
+    el.onclick=()=>showDetail(m);
+    list.appendChild(el);
+  });
+}
+
+function oddsBlock(m){
+  const mapped=m.odds_mapped||[];
+  const recs=m.odds_records||[];
+  const st=m.odds_status||'MISSING';
+  if(!recs.length && !mapped.length){
+    return 'ODDS: UNAVAILABLE · '+st+' · MATCH DATA: REAL. Sin cuotas persistidas (falta clave de proveedor o no hubo cruce).';
+  }
+  if(mapped.length){
+    return mapped.map(r=>{
+      const name=r.market_name_official || ('UNMAPPED market_id '+ (r.market_id||''));
+      const outcome=r.outcome_name_official || 'outcome MISSING';
+      const line=(r.fixture_line!=null && r.fixture_line!=='') ? ' línea fixture '+r.fixture_line : ' línea MISSING';
+      return '<div style="margin-top:6px"><span class="pill real">REAL</span> '+
+        (r.bookmaker||'')+' · '+name+' · '+outcome+line+
+        ' · phase '+(r.phase||'')+' · period '+(r.period_official||'MISSING')+
+        '<br>'+r.decimal_odds+
+        '<br><small>catalog handicap no usado como línea · updated '+(r.source_updated_at||r.observed_at||'')+'</small></div>';
+    }).join('');
+  }
+  return 'Cuotas RAW sin mapear al catálogo oficial ('+recs.length+' snapshots). Nombres de mercado no se inventan.';
+}
+
+function fieldLine(label, value, status){
+  return `<div class="block"><b>${label}</b><br>${value||'—'} <span class="pill ${status==='MISSING'?'miss':'real'}">${status||'REAL'}</span></div>`;
+}
+
+function showDetail(m){
+  const d=$('detail'); d.classList.add('show');
+  const score=(m.home_score!=null && m.away_score!=null)?`${m.home_score}–${m.away_score}`:'MISSING';
+  d.innerHTML=`<div class="comp">MATCH DETAILS · ${m.external_id||''}</div>
+    <div class="matchn">${m.home_team} vs ${m.away_team}</div>
+    <div class="grid">
+      <div class="metric"><small>COMPETICIÓN</small><strong>${m.competition||'—'}</strong></div>
+      <div class="metric"><small>ESTADO</small><strong>${m.status||'—'} ${m.minute||''}</strong></div>
+      <div class="metric"><small>MARCADOR</small><strong>${score}</strong></div>
+    </div>
+    ${fieldLine('Kickoff UTC', m.kickoff_utc, m.kickoff_utc?'REAL':'MISSING')}
+    ${fieldLine('Hora UK', m.display_time_uk, m.display_time_uk?'REAL':'MISSING')}
+    ${fieldLine('Estadio', m.venue, m.venue_status||'MISSING')}
+    ${fieldLine('Forma reciente', null, 'MISSING')}
+    ${fieldLine('Estadísticas local/visitante', null, 'MISSING')}
+    ${fieldLine('Lesiones', null, 'MISSING')}
+    ${fieldLine('Sanciones', null, 'MISSING')}
+    ${fieldLine('Alineaciones', null, 'MISSING')}
+    ${fieldLine('Estadísticas avanzadas / xG', null, 'MISSING')}
+    <div class="block"><b>Cuotas</b><br>${oddsBlock(m)}</div>
+    <div class="block"><b>Integridad</b><br>${m.integrity_level}<br>${m.integrity_note}</div>
+    <div class="block"><b>News & context</b><br>MISSING — no se listan noticias sin fuente y fecha verificadas en este scan.</div>
+    <div class="block"><b>Fuente</b> BBC Sport · fetched ${m.fetched_at||'—'} · status ${m.data_status}</div>
+    <div class="block"><b>Veredicto V0.3.1</b><br>${m.recommendation}<br>${m.recommendation_reason}</div>`;
+  d.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function setProgress(p, msg){
+  bar.style.width=p+'%'; pct.textContent=p+'%';
+  if(msg) log.innerHTML += `<div>✓ ${msg}</div>`;
+}
+
+async function hydrateFromDb(){
+  try{
+    const res=await fetch('/api/scan');
+    if(!res.ok) return;
+    const data=await res.json();
+    if(data.matches && data.matches.length){
+      title.textContent='Último scan persistido';
+      status.textContent='Cargado desde SQLite · sin nuevo fetch';
+      log.innerHTML='<div class="done">✓ '+data.matches.length+' partidos desde DB (GET /api/scan). Pulsa BUSCAR AHORA para un scan nuevo.</div>';
+      if(data.scan_status) log.innerHTML += '<div>Estado: '+data.scan_status+' · persist_ok='+data.persist_ok+'</div>';
+      renderMatches(data);
+    } else {
+      log.innerHTML='No hay scan persistido. Pulsa “Buscar ahora” para consultar BBC.';
+    }
+  }catch(err){
+    log.innerHTML='No se pudo leer el último scan: '+err.message;
+  }
+}
+async function hydrateMeta(){
+  try{
+    const r=await fetch('/api/readiness');
+    if(r.ok){
+      const d=await r.json();
+      const box=$('readyBox');
+      if(box) box.textContent='Readiness: '+(d.state||d.training_readiness)+' · settled_non_void='+((d.metrics||{}).settled_non_void)+' · model NOT_READY';
+    }
+  }catch(e){}
+  try{
+    const h=await fetch('/api/history/evaluation');
+    if(h.ok){
+      const d=await h.json();
+      const el=$('histMeta');
+      if(el) el.textContent='Obs '+d.total+' · WON '+d.WON+' · LOST '+d.LOST+' · VOID '+d.VOID+' · UNKNOWN '+d.UNKNOWN+' · model_probability NULL';
+    }
+  }catch(e){}
+}
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
+window.addEventListener('DOMContentLoaded', ()=>{
+  hydrateFromDb(); hydrateMeta();
+  fetch('/api/daily').then(r=>r.json()).then(d=>{
+    const el=$('dailyIntro'), meta=$('dailyMeta');
+    if(el) el.textContent=d.headline||el.textContent;
+    if(meta && d.pick){
+      const p=d.pick;
+      const mp=p.market_probability!=null ? (p.market_probability*100).toFixed(2)+'%' : '—';
+      meta.innerHTML='<b>'+((p.event_label)||((p.home_team||'?')+' vs '+(p.away_team||'?')))+'</b><br>'+
+        (p.original_market_name||p.market_name_official||'Mercado')+' · '+(p.original_outcome_name||p.outcome_name_official||'Selección')+
+        ' · cuota '+(p.decimal_odds||'—')+' · prob. mercado '+mp+
+        '<br><small>Fuente: '+(p.bookmaker||'OddsPapi/Betano')+' · MODEL '+(d.model_status||'NOT_READY')+' · '+(d.note||'')+'</small>';
+    }
+  }).catch(()=>{});
+  const capBtn=$('capBtn');
+  if(capBtn) capBtn.onclick=async()=>{
+    const u='/api/capital?capital='+$('cap0').value+'&meta='+$('capM').value+'&cuota='+$('capQ').value+'&nivel='+$('capN').value;
+    const d=await (await fetch(u)).json();
+    const s=d.steps||{};
+    $('capOut').innerHTML='<b>'+(d.risk&&d.risk.label||'SIMULACIÓN')+'</b><br>Pasos: '+(s.steps)+
+      '<br>Final: '+(s.final_capital)+'<br>Reserva: '+(d.risk&&d.risk.reserva_protegida)+
+      '<br>'+(s.disclaimer||'')+'<br>'+(s.path||[]).map(p=>'PASO '+p.step+' · '+p.capital).join('<br>');
+  };
+  const rutaBtn=$('rutaBtn');
+  if(rutaBtn) rutaBtn.onclick=async()=>{
+    const d=await (await fetch('/api/ruta?capital=1&meta=100&cuota=5')).json();
+    $('rutaOut').textContent=JSON.stringify({steps:d.steps_matematicos,disclaimer:d.disclaimer},null,2);
+  };
+  const tgtBtn=$('tgtBtn');
+  if(tgtBtn) tgtBtn.onclick=async()=>{
+    const d=await (await fetch('/api/construir?target='+encodeURIComponent($('tgtOdds').value))).json();
+    if(d.combination && d.combination.length){
+      const lines=d.combination.map((x,i)=>(i+1)+'. '+(x.event_label||((x.home_team||'?')+' vs '+(x.away_team||'?')))+' · '+(x.original_market_name||x.market_name_official||'Mercado')+' · '+(x.original_outcome_name||x.outcome_name_official||'Selección')+' · '+x.decimal_odds+' · prob mercado '+(x.market_probability!=null?(x.market_probability*100).toFixed(2)+'%':'—')).join('<br>');
+      $('tgtOut').innerHTML='<b>'+d.headline+'</b><br>Objetivo: '+d.cuota_objetivo+' · Conseguida: '+d.cuota_conseguida.toFixed(2)+'<br>'+lines+'<br><small>Correlación: '+d.correlation+' · No se calcula probabilidad conjunta. '+(d.note||'')+'</small>';
+    } else $('tgtOut').textContent=d.headline||d.reason||JSON.stringify(d);
+  };
+});
+
+scanBtn.addEventListener('click', async ()=>{
+  scanBtn.disabled=true; scanBtn.textContent='⏳ ANALIZANDO...';
+  log.innerHTML=''; title.textContent='Escaneo en curso'; status.textContent='Consultando fuentes...';
+  setProgress(10,'Buscando partidos de hoy (BBC Sport)...');
+  setProgress(25,'Betano: acceso público restringido — se marca MISSING.');
+  setProgress(40,'Normalizando equipos, competiciones y estado...');
+  try{
+    const res=await fetch('/api/scan',{method:'POST'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    setProgress(70,`Fuente BBC: ${data.count||0} partidos REAL.`);
+    setProgress(85,'Evaluando integridad solo con evidencia pública...');
+    setProgress(95,'Cuotas y mercados: se muestran si existen datos reales persistidos de OddsPapi/Betano.');
+    setProgress(100,'Escaneo completado.');
+    title.textContent='Escaneo completado';
+    status.textContent='Datos reales · sin recomendación';
+    log.innerHTML += `<div class="done">✓ ${(data.sources_ok||[]).map(s=>s.code+' '+s.count).join(', ')||'sin fuente OK'}</div>`;
+    (data.sources_fail||[]).forEach(s=>{
+      log.innerHTML += `<div>✓ ${s.code}: ${s.error}</div>`;
+    });
+    if(data.persist_ok===false){
+      log.innerHTML += '<div>PERSISTENCIA FALLÓ: '+(data.persist_error||'sin detalle')+'</div>';
+    } else {
+      log.innerHTML += '<div class="done">✓ Persistido en '+(data.db_path||'SQLite')+'</div>';
+    }
+    renderMatches(data);
+  }catch(err){
+    title.textContent='Error de fuente';
+    log.innerHTML += `<div>No se pudo completar el scan: ${err.message}. ¿Está el backend en marcha? (uvicorn backend.app:app --port 8000)</div>`;
+    status.textContent='Fuente no disponible';
+  }
+  scanBtn.disabled=false; scanBtn.textContent='🔎 BUSCAR AHORA';
+});
+</script>
+</body>
+</html>
