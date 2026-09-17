@@ -1,3 +1,4 @@
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -20,7 +21,7 @@ def test_touch_scan_without_id_reports_audit_failure():
 def test_record_scan_returns_error_when_database_insert_fails(monkeypatch):
     class BrokenConnection:
         def execute(self, *args, **kwargs):
-            raise app.sqlite3.OperationalError("insert failed")
+            raise sqlite3.OperationalError("insert failed")
 
         def rollback(self):
             pass
@@ -59,5 +60,5 @@ def test_scan_reports_missing_audit_row_when_initial_insert_fails(monkeypatch):
 
     assert payload["scan_id"] is None
     assert payload["scan_meta_error"] == "insert failed"
-    assert payload["scan_status"] == "COMPLETED"
+    assert payload["scan_status"] == "FAILED"
     assert payload["persist_ok"] is False
