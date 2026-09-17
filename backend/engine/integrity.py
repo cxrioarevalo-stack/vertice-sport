@@ -6,16 +6,32 @@ PUBLIC_WATCHLIST = [
 
 
 def assess(match: dict, news: list[dict] | None = None) -> dict:
+    """Assess publicly reported integrity signals without inferring guilt.
+
+    The input is defensive: malformed news items are ignored, and duplicate
+    signals are not repeated in the response.
+    """
     news = news or []
     hits = []
-    blob = f"{match.get('home_team','')} {match.get('away_team','')} {match.get('competition','')}".lower()
-    for item in PUBLIC_WATCHLIST:
-        if item["needle"].lower() in blob:
+    seen: set[tuple[str, str]] = set()
+    blob = f"{match.get('home_team', '')} {match.get('away_team', '')} {match.get('competition', '')}".lower()
+
+    def add_hit(item: dict) -> None:
+        key = (str(item.get("type", "")), str(item.get("title", "")))
+        if key not in seen:
+            seen.add(key)
             hits.append(item)
-    for n in news:
-        text = f"{n.get('title','')} {n.get('summary','')}".lower()
-        if any(w in text for w in ("match-fixing investigation", "integrity investigation", "spot-fixing charge")):
-            hits.append({"type": "public_report", "title": n.get("title")})
+
+    for item in PUBLIC_WATCHLIST:
+        if item.get("needle", "").lower() in blob:
+            add_hit(item)
+
+    for item in news:
+        if not isinstance(item, dict):
+            continue
+        text = f"{item.get('title', '')} {item.get('summary', '')}".lower()
+        if any(word in text for word in ("match-fixing investigation", "integrity investigation", "spot-fixing charge")):
+            add_hit({"type": "public_report", "title": item.get("title")})
 
     if not hits:
         return {
