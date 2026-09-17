@@ -1,7 +1,7 @@
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app import app, FRONTEND
+from backend.app import app, FRONTEND
 
 
 @app.get("/manifest.json")
